@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeoSys Pro — L&H Vajilla</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #151820;
+  --surface2: #1c2030;
+  --surface3: #222840;
+  --border: #2a3050;
+  --accent: #c9a84c;
+  --accent2: #e8c97a;
+  --accent-glow: rgba(201,168,76,0.15);
+  --text: #eef0f8;
+  --text2: #8892b0;
+  --text3: #4a5580;
+  --danger: #e05c6a;
+  --success: #52c87a;
+  --info: #5ba8f5;
+  --warning: #f0a048;
+  --sidebar-w: 240px;
+  --radius: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+/* ─── TEMA NEGRO (default) ─── */
+[data-theme="negro"] {
+  --bg: #0d0f14;
+  --surface: #151820;
+  --surface2: #1c2030;
+  --surface3: #222840;
+  --border: #2a3050;
+  --accent: #c9a84c;
+  --accent2: #e8c97a;
+  --accent-glow: rgba(201,168,76,0.15);
+  --text: #eef0f8;
+  --text2: #8892b0;
+  --text3: #4a5580;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+/* ─── TEMA GRIS ─── */
+[data-theme="gris"] {
+  --bg: #2b2d35;
+  --surface: #33363f;
+  --surface2: #3c3f4a;
+  --surface3: #454857;
+  --border: #555868;
+  --accent: #c9a84c;
+  --accent2: #e8c97a;
+  --accent-glow: rgba(201,168,76,0.18);
+  --text: #f0f2f8;
+  --text2: #adb3c8;
+  --text3: #7a8099;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+/* ─── TEMA CLARO ─── */
+[data-theme="claro"] {
+  --bg: #f0f2f7;
+  --surface: #ffffff;
+  --surface2: #f5f6fa;
+  --surface3: #eaecf3;
+  --border: #d8dce8;
+  --accent: #b8912a;
+  --accent2: #c9a84c;
+  --accent-glow: rgba(184,145,42,0.12);
+  --text: #1a1d2e;
+  --text2: #4a5070;
+  --text3: #9096b0;
+  --shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+[data-theme="claro"] .btn-primary{color:#fff}
+[data-theme="claro"] .btn-primary:hover{color:#fff}
+[data-theme="claro"] #topbar{background:var(--surface);border-bottom:1px solid var(--border)}
+[data-theme="claro"] .nav-item.active{background:rgba(184,145,42,0.1)}
+[data-theme="claro"] .modal{box-shadow:0 8px 40px rgba(0,0,0,0.18)}
+[data-theme="claro"] .toast{box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+[data-theme="claro"] .preview-doc{border:1px solid #ddd}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow:hidden}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+/* ─── LAYOUT ─── */
+#app{display:flex;height:100vh;overflow:hidden}
+/* ─── SIDEBAR ─── */
+#sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:transform .3s;z-index:100}
+#sidebar-header{padding:20px 16px 12px;border-bottom:1px solid var(--border)}
+#sidebar-logo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--accent);letter-spacing:0.5px}
+#sidebar-sub{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+#sidebar-brand{font-size:11px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+nav{flex:1;padding:12px 8px;overflow-y:auto}
+.nav-section{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;padding:8px 10px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:all .2s;margin-bottom:2px;border:1px solid transparent}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(201,168,76,0.3)}
+.nav-item svg{flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+#sidebar-footer{padding:12px 8px;border-top:1px solid var(--border)}
+/* ─── MAIN ─── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{height:54px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+#menu-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:4px}
+#page-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text)}
+#topbar-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.topbar-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:6px}
+.topbar-btn:hover{border-color:var(--accent);color:var(--accent)}
+#content{flex:1;overflow-y:auto;padding:20px}
+/* ─── CARDS ─── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+/* ─── FORMS ─── */
+.form-grid{display:grid;gap:14px}
+.form-grid-2{grid-template-columns:1fr 1fr}
+.form-grid-3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.form-control{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;transition:border-color .2s,box-shadow .2s;outline:none}
+.form-control:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-control option{background:var(--surface2);color:var(--text)}
+textarea.form-control{resize:vertical;min-height:70px}
+/* ─── BUTTONS ─── */
+.btn{padding:9px 18px;border-radius:7px;border:none;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;letter-spacing:.3px}
+.btn-primary{background:var(--accent);color:#0d0f14}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,0.3)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-danger{background:rgba(224,92,106,0.15);color:var(--danger);border:1px solid rgba(224,92,106,0.3)}
+.btn-danger:hover{background:rgba(224,92,106,0.25)}
+.btn-success{background:rgba(82,200,122,0.15);color:var(--success);border:1px solid rgba(82,200,122,0.3)}
+.btn-success:hover{background:rgba(82,200,122,0.25)}
+.btn-info{background:rgba(91,168,245,0.15);color:var(--info);border:1px solid rgba(91,168,245,0.3)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-xs{padding:3px 8px;font-size:11px}
+/* ─── TABLE ─── */
+.table-wrapper{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:var(--surface2)}
+thead th{padding:11px 14px;text-align:left;color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.5px}
+.badge-warning{background:rgba(240,160,72,0.15);color:var(--warning);border:1px solid rgba(240,160,72,0.3)}
+.badge-success{background:rgba(82,200,122,0.15);color:var(--success);border:1px solid rgba(82,200,122,0.3)}
+.badge-info{background:rgba(91,168,245,0.15);color:var(--info);border:1px solid rgba(91,168,245,0.3)}
+.badge-danger{background:rgba(224,92,106,0.15);color:var(--danger);border:1px solid rgba(224,92,106,0.3)}
+.badge-neutral{background:var(--surface3);color:var(--text2);border:1px solid var(--border)}
+/* ─── MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;transform:translateY(20px);transition:transform .25s;box-shadow:var(--shadow)}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--accent)}
+.modal-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:20px;line-height:1;padding:4px}
+.modal-close:hover{color:var(--text)}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+/* ─── DROPDOWN MENU ─── */
+.dropdown-wrapper{position:relative;display:inline-block}
+.dropdown-menu{position:absolute;top:calc(100% + 6px);right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;min-width:180px;box-shadow:var(--shadow);z-index:200;overflow:hidden;opacity:0;transform:translateY(-8px);pointer-events:none;transition:all .2s}
+.dropdown-menu.open{opacity:1;transform:translateY(0);pointer-events:all}
+.dropdown-item{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.dropdown-item:hover{background:var(--surface2);color:var(--text)}
+.dropdown-item.danger:hover{color:var(--danger)}
+.dropdown-divider{height:1px;background:var(--border);margin:4px 0}
+/* ─── ALERTS ─── */
+.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.alert-success{background:rgba(82,200,122,0.12);border:1px solid rgba(82,200,122,0.3);color:var(--success)}
+.alert-danger{background:rgba(224,92,106,0.12);border:1px solid rgba(224,92,106,0.3);color:var(--danger)}
+.alert-info{background:rgba(91,168,245,0.12);border:1px solid rgba(91,168,245,0.3);color:var(--info)}
+/* ─── TOAST ─── */
+#toast-container{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;animation:slideIn .3s ease;border-left:3px solid var(--accent)}
+.toast.success{border-left-color:var(--success)}
+.toast.error{border-left-color:var(--danger)}
+.toast.info{border-left-color:var(--info)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fadeOut{to{transform:translateX(100%);opacity:0}}
+/* ─── STATS ROW ─── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-value{font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent)}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:2px}
+/* ─── SEARCH BAR ─── */
+.search-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.search-input-wrap{position:relative;flex:1;min-width:180px}
+.search-input-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3)}
+.search-input{padding-left:34px}
+/* ─── LOGO UPLOAD ─── */
+.logo-upload{width:120px;height:80px;border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s;flex-shrink:0}
+.logo-upload:hover{border-color:var(--accent)}
+.logo-upload img{width:100%;height:100%;object-fit:contain;position:absolute;inset:0}
+.logo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+/* ─── COTIZACION LIST ITEMS TABLE ─── */
+.items-table-wrapper{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.items-table thead th{font-size:11px;padding:9px 10px}
+.items-table tbody td{padding:7px 10px;vertical-align:middle}
+.items-table .rm-btn{background:none;border:none;color:var(--text3);cursor:pointer;padding:2px 6px;font-size:16px;transition:color .2s;line-height:1}
+.items-table .rm-btn:hover{color:var(--danger)}
+/* ─── TOGGLE ─── */
+.toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer}
+.toggle{width:38px;height:20px;background:var(--surface3);border-radius:20px;position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s}
+.toggle.on::after{left:20px}
+/* ─── CHIPS ─── */
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:12px;color:var(--text2)}
+/* ─── DIVIDER ─── */
+.divider{height:1px;background:var(--border);margin:16px 0}
+/* ─── FIREBASE CONFIG NOTICE ─── */
+.config-notice{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:16px;margin-bottom:20px}
+.config-notice h4{color:var(--accent);font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.config-notice p{color:var(--text2);font-size:12px;line-height:1.7}
+.config-notice code{background:var(--surface2);padding:2px 6px;border-radius:4px;color:var(--accent2);font-size:11px}
+/* ─── MOBILE ─── */
+@media(max-width:768px){
+  #sidebar{position:fixed;top:0;left:0;height:100%;transform:translateX(-100%);z-index:500}
+  #sidebar.open{transform:translateX(0)}
+  #menu-toggle{display:block}
+  #app{overflow:visible}
+  #main{overflow:hidden;height:100vh}
+  .form-grid-2,.form-grid-3{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+  #content{padding:14px}
+  .search-bar{gap:8px}
+  table{min-width:600px}
+  .modal{padding:16px}
+  #sidebar-overlay{display:block}
+}
+#sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400}
+/* hide native number spinners inside items table */
+.items-table input[type=number]::-webkit-inner-spin-button,
+.items-table input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.items-table input[type=number]{-moz-appearance:textfield}
+/* ─── LOGIN SCREEN ─── */
+#login-screen{position:fixed;inset:0;background:var(--bg);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.login-logo{font-family:'DM Serif Display',serif;font-size:32px;color:var(--accent);text-align:center;margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--text3);text-align:center;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.login-divider{height:1px;background:var(--border);margin:20px 0}
+.login-error{background:rgba(224,92,106,0.12);border:1px solid rgba(224,92,106,0.3);color:var(--danger);padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none}
+.login-btn{width:100%;padding:12px;font-size:14px;border-radius:9px;margin-top:8px}
+.login-footer{text-align:center;margin-top:20px;font-size:11px;color:var(--text3)}
+/* topbar user badge */
+#user-badge{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+#logout-btn{background:none;border:1px solid var(--border);color:var(--text3);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .2s}
+#logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+@media print{
+  body{background:white;color:#000;font-size:12pt}
+  #sidebar,#topbar,#toast-container,.no-print{display:none!important}
+  #content{padding:0}
+  .card{border:1px solid #ddd;background:white;page-break-inside:avoid}
+  .print-header{display:flex!important}
+  table{font-size:10pt}
+  .badge{background:none!important;border:1px solid #ccc;color:#000!important}
+  thead tr{background:#f5f5f5!important}
+}
+.print-header{display:none;justify-content:space-between;align-items:flex-start;margin-bottom:20px;border-bottom:2px solid #ddd;padding-bottom:16px}
+/* ─── COTIZACION PREVIEW ─── */
+#preview-modal .modal{max-width:780px}
+.preview-doc{background:white;color:#222;padding:28px;border-radius:8px;font-size:12px;line-height:1.6}
+.preview-doc table{width:100%;border-collapse:collapse}
+.preview-doc table th,.preview-doc table td{border:1px solid #ddd;padding:7px 10px}
+.preview-doc table th{background:#f5f5f5;font-weight:700}
+.preview-doc .preview-header{display:flex;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #333}
+.preview-doc .preview-logo{max-height:70px;max-width:160px;object-fit:contain}
+.preview-doc .co-title{font-size:18px;font-weight:700}
+.preview-doc .preview-total-row td{font-weight:700;background:#f9f9f9}
+</style>
+</head>
+<body>
+<div id="toast-container"></div>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ─── LOGIN SCREEN ─── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">LeoSys Pro</div>
+    <div class="login-sub">L&H · Vajilla para Eventos</div>
+    <div class="login-error" id="login-error"></div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Correo electrónico</label>
+      <input class="form-control" type="email" id="login-email" placeholder="usuario@empresa.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <div style="position:relative">
+        <input class="form-control" type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')doLogin()">
+        <button onclick="togglePassVis()" type="button" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px" id="pass-eye">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary login-btn" onclick="doLogin()" id="login-btn">
+      Ingresar al Sistema
+    </button>
+    <div class="login-footer">LeoSys Pro v1.0 · Sistema protegido</div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+<!-- ─── SIDEBAR ─── -->
+<aside id="sidebar">
+  <div id="sidebar-header">
+    <div id="sidebar-logo">LeoSys Pro</div>
+    <div id="sidebar-sub">Sistema de Gestión</div>
+    <div id="sidebar-brand">L&H Vajilla para Eventos</div>
+  </div>
+  <nav>
+    <div class="nav-section">Menú Principal</div>
+    <div class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="navigate('articulos')" id="nav-articulos">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      Artículos
+    </div>
+    <div class="nav-item" onclick="navigate('presupuestos')" id="nav-presupuestos">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Nuevo Presupuesto
+    </div>
+    <div class="nav-item" onclick="navigate('cotizaciones')" id="nav-cotizaciones">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Cotizaciones
+    </div>
+    <div class="nav-section">Administración</div>
+    <div class="nav-item" onclick="navigate('clientes')" id="nav-clientes">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Clientes
+    </div>
+    <div class="nav-item" onclick="navigate('perfil')" id="nav-perfil">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+      Perfil & Config
+    </div>
+  </nav>
+  <div id="sidebar-footer">
+    <div style="font-size:11px;color:var(--text3);text-align:center;margin-bottom:8px" id="sidebar-user-email"></div>
+    <button onclick="doLogout()" style="width:100%;background:none;border:1px solid var(--border);color:var(--text3);padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">
+      ⏻ Cerrar sesión
+    </button>
+    <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px">LeoSys Pro v1.0</div>
+  </div>
+</aside>
+
+<!-- ─── MAIN ─── -->
+<main id="main">
+  <div id="topbar">
+    <button id="menu-toggle" onclick="toggleSidebar()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span id="page-title">Dashboard</span>
+    <div id="topbar-actions"></div>
+  </div>
+  <div id="content"></div>
+</main>
+</div>
+
+<!-- ─── MODAL CONTAINER ─── -->
+<div id="modal-container"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+// FIREBASE CONFIG
+// ════════════════════════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAGY71fnSIxIDsBQFS3ALZ5UhEv0DSBEGU",
+  authDomain: "vajillalyh.firebaseapp.com",
+  projectId: "vajillalyh",
+  storageBucket: "vajillalyh.firebasestorage.app",
+  messagingSenderId: "1031425048850",
+  appId: "1:1031425048850:web:f25c39c04672d50497f3cb",
+  measurementId: "G-XXSKB7QWD7"
+};
+
+let db = null;
+let auth = null;
+let firebaseReady = false;
+let currentUser = null;
+
+function initFirebase() {
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    firebaseReady = true;
+
+    // Escuchar cambios de sesión
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        currentUser = user;
+        showApp(user);
+      } else {
+        currentUser = null;
+        showLogin();
+      }
+    });
+
+    return true;
+  } catch(e) {
+    console.error("Error Firebase:", e);
+    // Fallback a localStorage si falla
+    showApp(null);
+    return false;
+  }
+}
+
+function showLogin() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  if (user) {
+    const emailEl = document.getElementById('sidebar-user-email');
+    if (emailEl) emailEl.textContent = user.email;
+  }
+  // Sincronizar perfil (con logo) desde Firestore a localStorage al iniciar
+  getPerfilData().then(perfil => {
+    if (perfil && Object.keys(perfil).length) LS.set('perfil', [perfil]);
+  });
+  loadTema();
+  navigate('dashboard');
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  const btn = document.getElementById('login-btn');
+
+  errEl.style.display = 'none';
+  if (!email || !pass) {
+    errEl.textContent = 'Ingresá tu email y contraseña.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Ingresando...';
+  btn.disabled = true;
+
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+    // onAuthStateChanged se encarga de mostrar la app
+  } catch(e) {
+    const msgs = {
+      'auth/user-not-found': 'Usuario no encontrado.',
+      'auth/wrong-password': 'Contraseña incorrecta.',
+      'auth/invalid-email': 'Email inválido.',
+      'auth/too-many-requests': 'Demasiados intentos. Esperá unos minutos.',
+      'auth/invalid-credential': 'Email o contraseña incorrectos.',
+    };
+    errEl.textContent = msgs[e.code] || 'Error al ingresar: ' + e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Ingresar al Sistema';
+    btn.disabled = false;
+  }
+}
+
+async function doLogout() {
+  if (!confirm('¿Cerrar sesión?')) return;
+  if (auth) await auth.signOut();
+  else showLogin();
+}
+
+function togglePassVis() {
+  const inp = document.getElementById('login-pass');
+  const eye = document.getElementById('pass-eye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
+}
+
+// ════════════════════════════════════════════════════════════
+// LOCAL STORAGE FALLBACK (cuando Firebase no está configurado)
+// ════════════════════════════════════════════════════════════
+const LS = {
+  get: (k, def=[]) => { try { return JSON.parse(localStorage.getItem('leosys_'+k)) ?? def; } catch{ return def; }},
+  set: (k, v) => localStorage.setItem('leosys_'+k, JSON.stringify(v)),
+};
+
+// ════════════════════════════════════════════════════════════
+// DATABASE ABSTRACTION
+// ════════════════════════════════════════════════════════════
+const DB = {
+  async getAll(col) {
+    if (firebaseReady) {
+      const snap = await db.collection(col).get();
+      return snap.docs.map(d => ({id: d.id, ...d.data()}));
+    }
+    return LS.get(col, []);
+  },
+  async save(col, doc) {
+    if (firebaseReady) {
+      if (doc.id) { await db.collection(col).doc(doc.id).set(doc); return doc; }
+      const ref = await db.collection(col).add(doc);
+      return {...doc, id: ref.id};
+    }
+    const arr = LS.get(col, []);
+    if (doc.id) {
+      const i = arr.findIndex(x => x.id === doc.id);
+      if (i>=0) arr[i]=doc; else arr.push(doc);
+    } else {
+      doc.id = Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      arr.push(doc);
+    }
+    LS.set(col, arr);
+    return doc;
+  },
+  async delete(col, id) {
+    if (firebaseReady) { await db.collection(col).doc(id).delete(); return; }
+    const arr = LS.get(col, []).filter(x => x.id !== id);
+    LS.set(col, arr);
+  },
+  async getOne(col, id) {
+    if (firebaseReady) {
+      const doc = await db.collection(col).doc(id).get();
+      return doc.exists ? {id: doc.id, ...doc.data()} : null;
+    }
+    return LS.get(col, []).find(x => x.id === id) || null;
+  }
+};
+
+// ════════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════════
+function toast(msg, type='success', dur=3500) {
+  const icons = {success:'✓',error:'✕',info:'ℹ'};
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span style="font-size:16px">${icons[type]||'•'}</span> ${msg}`;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => { el.style.animation='fadeOut .4s ease forwards'; setTimeout(()=>el.remove(),400); }, dur);
+}
+
+// ════════════════════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════════════════════
+function showModal(html, id='main-modal', maxWidth='600px') {
+  const prev = document.getElementById(id);
+  if (prev) prev.remove();
+  const ov = document.createElement('div');
+  ov.className='modal-overlay'; ov.id=id;
+  ov.innerHTML=`<div class="modal" style="max-width:${maxWidth}">${html}</div>`;
+  ov.addEventListener('click', e => { if(e.target===ov) closeModal(id); });
+  document.getElementById('modal-container').appendChild(ov);
+  requestAnimationFrame(() => ov.classList.add('open'));
+}
+function closeModal(id='main-modal') {
+  const ov = document.getElementById(id);
+  if (ov) { ov.classList.remove('open'); setTimeout(()=>ov.remove(),300); }
+}
+
+// ════════════════════════════════════════════════════════════
+// SIDEBAR
+// ════════════════════════════════════════════════════════════
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').style.display =
+    document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').style.display='none';
+}
+
+// ════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════
+const PAGES = {};
+let currentPage = '';
+
+function navigate(page) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const nav = document.getElementById('nav-'+page);
+  if (nav) nav.classList.add('active');
+  currentPage = page;
+  if (PAGES[page]) PAGES[page]();
+  closeSidebar();
+}
+
+// ════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════
+function fmt(n) { return parseFloat(n||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d) { if(!d) return ''; const dt=new Date(d+'T12:00:00'); return dt.toLocaleDateString('es-AR'); }
+function today() { return new Date().toISOString().split('T')[0]; }
+function nextNum(arr, field='numero') {
+  if (!arr.length) return '000001';
+  const max = Math.max(...arr.map(x=>parseInt(x[field]||0)));
+  return String(max+1).padStart(6,'0');
+}
+function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function dropdown(btnHTML, items, alignRight=true) {
+  const id = 'dd_'+Math.random().toString(36).slice(2,8);
+  document.addEventListener('click', function handler(e) {
+    const menu = document.getElementById(id);
+    if (menu && !menu.closest('.dropdown-wrapper').contains(e.target)) {
+      menu.classList.remove('open'); document.removeEventListener('click',handler);
+    }
+  }, true);
+  return `<div class="dropdown-wrapper">
+    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('${id}').classList.toggle('open');event.stopPropagation()">${btnHTML}</button>
+    <div class="dropdown-menu ${alignRight?'':'left'}" id="${id}" style="${alignRight?'':'left:0;right:auto'}">
+      ${items.map(it => it === 'divider' ? '<div class="dropdown-divider"></div>' :
+        `<button class="dropdown-item ${it.danger?'danger':''}" onclick="closeDD('${id}');(${it.fn})()">${it.icon||''} ${it.label}</button>`
+      ).join('')}
+    </div>
+  </div>`;
+}
+function closeDD(id) { document.getElementById(id)?.classList.remove('open'); }
+
+// ════════════════════════════════════════════════════════════
+// PAGE: DASHBOARD
+// ════════════════════════════════════════════════════════════
+PAGES.dashboard = async function() {
+  document.getElementById('page-title').textContent = 'Dashboard';
+  document.getElementById('topbar-actions').innerHTML = '';
+  const content = document.getElementById('content');
+  content.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:200px;color:var(--text3)"><div class="loader"></div></div>`;
+  
+  const [articulos, cotizaciones, clientes] = await Promise.all([
+    DB.getAll('articulos'), DB.getAll('cotizaciones'), DB.getAll('clientes')
+  ]);
+  
+  const total = cotizaciones.reduce((s,c)=>s+parseFloat(c.total||0),0);
+  const aprobadas  = cotizaciones.filter(c=>c.estado==='aprobado').length;
+  const enEspera   = cotizaciones.filter(c=>c.estado==='en_espera').length;
+  const finalizadas= cotizaciones.filter(c=>c.estado==='finalizado').length;
+
+  const recientes = [...cotizaciones].sort((a,b)=>b.numero?.localeCompare(a.numero)).slice(0,6);
+  
+  content.innerHTML = `
+    <div class="stats-row" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+      <div class="stat-card">
+        <div class="stat-label">Total Cotizaciones</div>
+        <div class="stat-value">${cotizaciones.length}</div>
+        <div class="stat-sub">generadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" style="color:var(--warning)">⏳ En Espera</div>
+        <div class="stat-value" style="color:var(--warning)">${enEspera}</div>
+        <div class="stat-sub">pendientes de respuesta</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" style="color:var(--success)">✓ Aprobadas</div>
+        <div class="stat-value" style="color:var(--success)">${aprobadas}</div>
+        <div class="stat-sub">confirmadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" style="color:var(--text2)">✦ Finalizadas</div>
+        <div class="stat-value" style="color:var(--text2)">${finalizadas}</div>
+        <div class="stat-sub">completadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Clientes</div>
+        <div class="stat-value">${clientes.length}</div>
+        <div class="stat-sub">registrados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Artículos</div>
+        <div class="stat-value">${articulos.length}</div>
+        <div class="stat-sub">en catálogo</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Cotizaciones Recientes
+      </div>
+      ${recientes.length === 0 ? '<p style="color:var(--text3);text-align:center;padding:20px">No hay cotizaciones aún</p>' : `
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${recientes.map(c=>`<tr>
+              <td><strong style="color:var(--accent)">${c.numero}</strong></td>
+              <td>${fmtDate(c.fecha)}</td>
+              <td>${escHtml(c.clienteNombre)}</td>
+              <td><strong>$${fmt(c.total)}</strong></td>
+              <td>${estadoBadge(c.estado)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="card" style="cursor:pointer" onclick="navigate('presupuestos')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:48px;height:48px;background:var(--accent-glow);border:1px solid rgba(201,168,76,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:600">Nuevo Presupuesto</div>
+            <div style="font-size:12px;color:var(--text3)">Crear una nueva cotización</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="navigate('clientes')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:48px;height:48px;background:rgba(91,168,245,0.1);border:1px solid rgba(91,168,245,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:600">Nuevo Cliente</div>
+            <div style="font-size:12px;color:var(--text3)">Agregar un cliente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+function estadoBadge(e) {
+  const map = { aprobado:['success','Aprobado'], en_espera:['warning','En Espera'], finalizado:['neutral','Finalizado'] };
+  const [cls, lbl] = map[e] || ['neutral', e||'—'];
+  return `<span class="badge badge-${cls}">${lbl}</span>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// PAGE: ARTÍCULOS
+// ════════════════════════════════════════════════════════════
+let articulosList = [];
+let articuloSearch = '';
+
+PAGES.articulos = async function() {
+  document.getElementById('page-title').textContent = 'Artículos';
+  document.getElementById('topbar-actions').innerHTML = `
+    <button class="btn btn-secondary btn-sm" onclick="importExcelArticulos()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Importar Excel
+    </button>
+    <button class="btn btn-danger btn-sm" onclick="eliminarInventario()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      Eliminar Inventario
+    </button>
+    <button class="btn btn-primary btn-sm" onclick="openArticuloModal()">+ Nuevo Artículo</button>`;
+  
+  articulosList = await DB.getAll('articulos');
+  renderArticulos();
+};
+
+function renderArticulos() {
+  const filtered = articulosList.filter(a =>
+    !articuloSearch ||
+    a.rubro?.toLowerCase().includes(articuloSearch) ||
+    a.descripcion?.toLowerCase().includes(articuloSearch) ||
+    a.codigo?.toLowerCase().includes(articuloSearch)
+  );
+  
+  const rubros = [...new Set(articulosList.map(a=>a.rubro).filter(Boolean))];
+  
+  document.getElementById('content').innerHTML = `
+    <div class="search-bar">
+      <div class="search-input-wrap" style="flex:1;max-width:320px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="form-control search-input" placeholder="Buscar artículo, rubro..." value="${articuloSearch}"
+          oninput="articuloSearch=this.value.toLowerCase();renderArticulos()">
+      </div>
+      <select class="form-control" style="width:auto" onchange="articuloSearch=this.value.toLowerCase();document.querySelector('.search-input').value=this.value;renderArticulos()">
+        <option value="">Todos los rubros</option>
+        ${rubros.map(r=>`<option value="${escHtml(r)}">${escHtml(r)}</option>`).join('')}
+      </select>
+      <span style="color:var(--text3);font-size:12px">${filtered.length} artículo(s)</span>
+    </div>
+    <div class="card" style="padding:0">
+      <div class="table-wrapper" style="border:none;border-radius:var(--radius)">
+        <table>
+          <thead>
+            <tr>
+              <th>Rubro</th><th>Código</th><th>Descripción</th><th>IVA</th><th>Precio</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.length===0 ? `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text3)">No hay artículos. Importá desde Excel o creá uno nuevo.</td></tr>` :
+              filtered.map(a=>`<tr>
+                <td><span class="chip">${escHtml(a.rubro||'—')}</span></td>
+                <td style="font-family:monospace;color:var(--text2);font-size:12px">${escHtml(a.codigo||'')}</td>
+                <td>${escHtml(a.descripcion||'')}</td>
+                <td>${a.iva?'21%':'—'}</td>
+                <td><strong>$${fmt(a.precio)}</strong></td>
+                <td>
+                  <div style="display:flex;gap:6px">
+                    <button class="btn btn-secondary btn-xs" onclick="openArticuloModal('${a.id}')">✏ Editar</button>
+                    <button class="btn btn-danger btn-xs" onclick="deleteArticulo('${a.id}')">✕ Borrar</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function openArticuloModal(id) {
+  const art = id ? articulosList.find(a=>a.id===id) : null;
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title">${art?'Editar':'Nuevo'} Artículo</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Rubro</label><input class="form-control" id="art-rubro" value="${escHtml(art?.rubro||'')}"></div>
+      <div class="form-group"><label>Código</label><input class="form-control" id="art-codigo" value="${escHtml(art?.codigo||'')}"></div>
+      <div class="form-group"><label>Descripción</label><input class="form-control" id="art-desc" value="${escHtml(art?.descripcion||'')}"></div>
+      <div class="form-grid form-grid-2">
+        <div class="form-group"><label>Precio</label><input class="form-control" id="art-precio" type="number" step="0.01" value="${art?.precio||''}"></div>
+        <div class="form-group"><label>IVA 21%</label>
+          <div style="margin-top:8px"><label class="toggle-wrap">
+            <div class="toggle ${art===null||art?.iva?'on':''}" id="art-iva-toggle" onclick="this.classList.toggle('on')"></div>
+            <span id="art-iva-label" style="font-size:13px">Incluir IVA</span>
+          </label></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveArticulo('${id||''}')">Guardar</button>
+    </div>
+  `);
+}
+
+async function saveArticulo(id) {
+  const rubro = document.getElementById('art-rubro').value.trim();
+  const codigo = document.getElementById('art-codigo').value.trim();
+  const descripcion = document.getElementById('art-desc').value.trim();
+  const precio = parseFloat(document.getElementById('art-precio').value) || 0;
+  const iva = document.getElementById('art-iva-toggle').classList.contains('on');
+  if (!descripcion) { toast('La descripción es obligatoria','error'); return; }
+  const doc = { rubro, codigo, descripcion, precio, iva };
+  if (id) doc.id = id;
+  await DB.save('articulos', doc);
+  articulosList = await DB.getAll('articulos');
+  closeModal();
+  renderArticulos();
+  toast('Artículo guardado');
+}
+
+async function deleteArticulo(id) {
+  if (!confirm('¿Eliminar este artículo?')) return;
+  await DB.delete('articulos', id);
+  articulosList = articulosList.filter(a=>a.id!==id);
+  renderArticulos();
+  toast('Artículo eliminado','info');
+}
+
+async function eliminarInventario() {
+  if (articulosList.length === 0) {
+    toast('El inventario ya está vacío','info');
+    return;
+  }
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--danger)">⚠ Eliminar Inventario</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div style="text-align:center;padding:10px 0 20px">
+      <div style="font-size:48px;margin-bottom:16px">🗑</div>
+      <p style="color:var(--text);font-size:15px;margin-bottom:8px">
+        Estás por eliminar <strong style="color:var(--danger)">${articulosList.length} artículo(s)</strong> del inventario.
+      </p>
+      <p style="color:var(--text2);font-size:13px">Esta acción no se puede deshacer.</p>
+      <div style="margin-top:20px;background:var(--surface2);border:1px solid rgba(224,92,106,0.3);border-radius:8px;padding:12px;font-size:12px;color:var(--text2)">
+        Para confirmar, escribí <strong style="color:var(--danger)">ELIMINAR</strong> en el campo de abajo:
+      </div>
+      <input class="form-control" id="confirm-eliminar" placeholder="Escribí ELIMINAR" style="margin-top:12px;text-align:center;font-weight:600;letter-spacing:2px"
+        oninput="document.getElementById('btn-confirmar-eliminar').disabled = this.value !== 'ELIMINAR'">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-danger" id="btn-confirmar-eliminar" disabled onclick="confirmarEliminarInventario()">
+        🗑 Sí, eliminar todo
+      </button>
+    </div>
+  `);
+}
+
+async function confirmarEliminarInventario() {
+  const btn = document.getElementById('btn-confirmar-eliminar');
+  btn.textContent = 'Eliminando...';
+  btn.disabled = true;
+  try {
+    for (const art of articulosList) {
+      await DB.delete('articulos', art.id);
+    }
+    articulosList = [];
+    closeModal();
+    renderArticulos();
+    toast(`Inventario eliminado correctamente`, 'info');
+  } catch(e) {
+    toast('Error al eliminar: ' + e.message, 'error');
+    btn.textContent = '🗑 Sí, eliminar todo';
+    btn.disabled = false;
+  }
+}
+
+function importExcelArticulos() {
+  const inp = document.createElement('input');
+  inp.type='file'; inp.accept='.xlsx,.xls,.csv';
+  inp.onchange = async e => {
+    const file = e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      try {
+        const wb = XLSX.read(ev.target.result, {type:'binary'});
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+        let count = 0;
+        for (const row of rows) {
+          const rubro = String(row['rubro']||row['Rubro']||'').trim();
+          const descripcion = String(row['articulo']||row['Articulo']||row['descripcion']||row['Descripcion']||'').trim();
+          const precio = parseFloat(row['precio']||row['Precio']||0);
+          const ivaRaw = String(row['iva']||row['IVA']||'si').toLowerCase();
+          const iva = ivaRaw!=='no'&&ivaRaw!=='0'&&ivaRaw!=='false';
+          if (!descripcion) continue;
+          const codigo = 'ART-'+String(Date.now()+count).slice(-6);
+          await DB.save('articulos', { rubro, descripcion, precio, iva, codigo });
+          count++;
+        }
+        articulosList = await DB.getAll('articulos');
+        renderArticulos();
+        toast(`${count} artículo(s) importados exitosamente`);
+      } catch(err) {
+        toast('Error al importar: '+err.message,'error');
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+  inp.click();
+}
+
+// ════════════════════════════════════════════════════════════
+// PAGE: CLIENTES
+// ════════════════════════════════════════════════════════════
+let clientesList = [];
+
+PAGES.clientes = async function() {
+  document.getElementById('page-title').textContent = 'Clientes';
+  document.getElementById('topbar-actions').innerHTML = `
+    <button class="btn btn-primary btn-sm" onclick="openClienteModal()">+ Nuevo Cliente</button>`;
+  clientesList = await DB.getAll('clientes');
+  renderClientes();
+};
+
+function renderClientes(search='') {
+  const filtered = clientesList.filter(c=>
+    !search || c.nombre?.toLowerCase().includes(search.toLowerCase()) ||
+    c.cuit?.includes(search) || c.mail?.toLowerCase().includes(search.toLowerCase())
+  );
+  document.getElementById('content').innerHTML = `
+    <div class="search-bar">
+      <div class="search-input-wrap" style="flex:1;max-width:320px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="form-control search-input" placeholder="Buscar cliente..." oninput="renderClientes(this.value)">
+      </div>
+      <span style="color:var(--text3);font-size:12px">${filtered.length} cliente(s)</span>
+    </div>
+    <div class="card" style="padding:0">
+      <div class="table-wrapper" style="border:none">
+        <table>
+          <thead><tr><th>Nombre</th><th>CUIT</th><th>Mail</th><th>WhatsApp</th><th>Cond. Pago</th><th>Acciones</th></tr></thead>
+          <tbody>
+            ${filtered.length===0?`<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text3)">No hay clientes registrados</td></tr>`:
+              filtered.map(c=>`<tr>
+                <td><strong>${escHtml(c.nombre)}</strong></td>
+                <td style="color:var(--text2)">${escHtml(c.cuit||'—')}</td>
+                <td>${escHtml(c.mail||'—')}</td>
+                <td>${escHtml(c.whatsapp||'—')}</td>
+                <td><span class="badge badge-neutral">${escHtml(c.condPago||'—')}</span></td>
+                <td>
+                  <div style="display:flex;gap:6px">
+                    <button class="btn btn-secondary btn-xs" onclick="openClienteModal('${c.id}')">✏ Editar</button>
+                    <button class="btn btn-danger btn-xs" onclick="deleteCliente('${c.id}')">✕</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function openClienteModal(id) {
+  const c = id ? clientesList.find(x=>x.id===id) : null;
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title">${c?'Editar':'Nuevo'} Cliente</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-grid form-grid-2">
+        <div class="form-group"><label>Nombre y Apellido *</label><input class="form-control" id="cl-nombre" value="${escHtml(c?.nombre||'')}"></div>
+        <div class="form-group"><label>CUIT</label><input class="form-control" id="cl-cuit" value="${escHtml(c?.cuit||'')}"></div>
+      </div>
+      <div class="form-grid form-grid-2">
+        <div class="form-group"><label>Mail</label><input class="form-control" id="cl-mail" type="email" value="${escHtml(c?.mail||'')}"></div>
+        <div class="form-group"><label>WhatsApp</label><input class="form-control" id="cl-ws" value="${escHtml(c?.whatsapp||'')}"></div>
+      </div>
+      <div class="form-group"><label>Dirección de Envío</label><input class="form-control" id="cl-dir" value="${escHtml(c?.direccion||'')}"></div>
+      <div class="form-group"><label>Condición de Pago</label>
+        <select class="form-control" id="cl-pago">
+          <option value="">— Seleccionar —</option>
+          ${['Efectivo','Transferencia','Cheque'].map(p=>`<option value="${p}" ${c?.condPago===p?'selected':''}>${p}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label>Notas</label><textarea class="form-control" id="cl-notas">${escHtml(c?.notas||'')}</textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCliente('${id||''}')">Guardar</button>
+    </div>
+  `);
+}
+
+async function saveCliente(id, returnDoc=false) {
+  const nombre = document.getElementById('cl-nombre').value.trim();
+  if (!nombre) { toast('El nombre es obligatorio','error'); return; }
+  const doc = {
+    nombre,
+    cuit: document.getElementById('cl-cuit').value.trim(),
+    mail: document.getElementById('cl-mail').value.trim(),
+    whatsapp: document.getElementById('cl-ws').value.trim(),
+    direccion: document.getElementById('cl-dir').value.trim(),
+    condPago: document.getElementById('cl-pago').value,
+    notas: document.getElementById('cl-notas').value.trim(),
+  };
+  if (id) doc.id = id;
+  const saved = await DB.save('clientes', doc);
+  clientesList = await DB.getAll('clientes');
+  if (returnDoc) return saved;
+  closeModal();
+  renderClientes();
+  toast('Cliente guardado');
+}
+
+async function deleteCliente(id) {
+  if (!confirm('¿Eliminar este cliente?')) return;
+  await DB.delete('clientes', id);
+  clientesList = clientesList.filter(c=>c.id!==id);
+  renderClientes();
+  toast('Cliente eliminado','info');
+}
+
+// ════════════════════════════════════════════════════════════
+// PAGE: PRESUPUESTOS (NUEVO)
+// ════════════════════════════════════════════════════════════
+let presupItems = [];
+let presupEditId = null;
+
+PAGES.presupuestos = async function() {
+  document.getElementById('page-title').textContent = 'Nuevo Presupuesto';
+  document.getElementById('topbar-actions').innerHTML = '';
+  presupEditId = null;
+  presupItems = [];
+  await renderPresupuesto();
+};
+
+async function renderPresupuesto(editData=null) {
+  const [cotizaciones, clientes, articulos, perfil] = await Promise.all([
+    DB.getAll('cotizaciones'), DB.getAll('clientes'), DB.getAll('articulos'), getPerfilData()
+  ]);
+  
+  // Asegurar que clientesList esté siempre actualizado para collectPresupData
+  clientesList = clientes;
+  
+  const numero = editData?.numero || nextNum(cotizaciones);
+  const rubros = [...new Set(articulos.map(a=>a.rubro).filter(Boolean))];
+  
+  if (editData && presupItems.length===0) {
+    presupItems = editData.items || [];
+    presupEditId = editData.id;
+  }
+
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+        ${editData?'Editar':'Nuevo'} Presupuesto
+      </div>
+      <div class="form-grid">
+        <div class="form-grid form-grid-3">
+          <div class="form-group"><label>Fecha *</label><input class="form-control" type="date" id="pre-fecha" value="${editData?.fecha||today()}"></div>
+          <div class="form-group"><label>Número</label><input class="form-control" id="pre-numero" value="${numero}" readonly style="opacity:.7"></div>
+          <div class="form-group"><label>Fecha de Entrega</label><input class="form-control" type="date" id="pre-fentrega" value="${editData?.fechaEntrega||''}"></div>
+        </div>
+        <div class="form-group">
+          <label>Cliente *
+            <button type="button" class="btn btn-secondary btn-xs" style="margin-left:8px" onclick="openClienteRapido()">+ Nuevo</button>
+          </label>
+          <select class="form-control" id="pre-cliente" onchange="autoFillCliente(this.value)">
+            <option value="">— Seleccionar cliente —</option>
+            ${clientes.map(c=>`<option value="${c.id}" ${editData?.clienteId===c.id?'selected':''}>${escHtml(c.nombre)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Condición de Pago</label>
+            <select class="form-control" id="pre-pago">
+              ${['Efectivo','Transferencia','Cheque'].map(p=>`<option value="${p}" ${editData?.condPago===p?'selected':''}>${p}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group"><label>Dirección de Envío</label><input class="form-control" id="pre-dir" value="${escHtml(editData?.direccionEnvio||'')}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Artículos del Presupuesto</div>
+      <div id="pre-items-table">
+        ${renderItemsTable(articulos, rubros)}
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="addItemRow()" style="margin-top:10px">
+        + Agregar Artículo
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="form-grid form-grid-2">
+        <div>
+          <div id="pre-totales" style="margin-bottom:12px"></div>
+          <div class="form-group">
+            <label>Descuento (%)</label>
+            <input class="form-control" type="number" min="0" max="100" id="pre-descuento" value="${editData?.descuento||0}" oninput="calcTotales()" style="max-width:120px">
+          </div>
+        </div>
+        <div>
+          <div class="form-group"><label>Nota al Pie (aparece en el PDF)</label><textarea class="form-control" id="pre-nota" rows="3">${escHtml(editData?.nota||'')}</textarea></div>
+          <div class="form-group" style="margin-top:10px"><label>Nota Privada (no aparece en el PDF)</label><textarea class="form-control" id="pre-notapriv" rows="2">${escHtml(editData?.notaPrivada||'')}</textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;padding-bottom:30px">
+      <button class="btn btn-secondary" onclick="previewPresupuesto()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Vista Previa
+      </button>
+      <div class="dropdown-wrapper">
+        <button class="btn btn-primary" onclick="document.getElementById('dd-crear').classList.toggle('open');event.stopPropagation()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+          Crear Cotización ▾
+        </button>
+        <div class="dropdown-menu" id="dd-crear" style="bottom:calc(100% + 6px);top:auto;left:0;right:auto;min-width:240px">
+          <button class="dropdown-item" onclick="closeDD('dd-crear');crearCotizacion('solo')">📄 Crear cotización</button>
+          <button class="dropdown-item" onclick="closeDD('dd-crear');crearCotizacion('mail')">📧 Crear y enviar por mail</button>
+          <button class="dropdown-item" onclick="closeDD('dd-crear');crearCotizacion('ws')">💬 Crear y enviar por WhatsApp</button>
+          <button class="dropdown-item" onclick="closeDD('dd-crear');crearCotizacion('mailws')">📤 Crear y enviar por mail y WhatsApp</button>
+          <button class="dropdown-item" onclick="closeDD('dd-crear');crearCotizacion('print')">🖨 Crear e imprimir</button>
+        </div>
+      </div>
+      ${presupEditId ? `<button class="btn btn-danger" onclick="deleteCotizacionFromEdit('${presupEditId}')">🗑 Borrar Cotización</button>` : ''}
+    </div>
+  `;
+  
+  // Auto-fill si viene editData
+  if (editData?.clienteId) {
+    autoFillCliente(editData.clienteId, editData);
+  }
+  
+  calcTotales();
+}
+
+function renderItemsTable(articulos, rubros) {
+  const rubroOpts = rubros.map(r=>`<option value="${escHtml(r)}">${escHtml(r)}</option>`).join('');
+  window._articulos_cache = articulos;
+  window._rubros_cache = rubros;
+  
+  return `<div class="items-table-wrapper">
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th style="width:140px">Rubro</th>
+          <th>Descripción</th>
+          <th style="width:100px">Precio</th>
+          <th style="width:60px">IVA</th>
+          <th style="width:80px">Cantidad</th>
+          <th style="width:100px">Total</th>
+          <th style="width:32px"></th>
+        </tr>
+      </thead>
+      <tbody id="items-tbody">
+        ${presupItems.map((item,i) => renderItemRow(item, i, rubroOpts)).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function renderItemRow(item={}, idx, rubroOpts) {
+  rubroOpts = rubroOpts || (window._rubros_cache||[]).map(r=>`<option value="${escHtml(r)}">${escHtml(r)}</option>`).join('');
+  const arts = window._articulos_cache || [];
+  const descOpts = arts
+    .filter(a=>!item.rubro || a.rubro===item.rubro)
+    .map(a=>`<option value="${a.id}" ${item.articuloId===a.id?'selected':''}>${escHtml(a.descripcion)}</option>`).join('');
+  const total = (parseFloat(item.precio||0) * (1+(item.iva?0.21:0))) * parseFloat(item.cantidad||1);
+  return `<tr id="item-row-${idx}">
+    <td>
+      <select class="form-control" style="font-size:12px;padding:5px 8px" onchange="onRubroChange(${idx},this.value)">
+        <option value="">— Rubro —</option>
+        ${rubroOpts.replace(`value="${escHtml(item.rubro)}"`,`value="${escHtml(item.rubro)}" selected`)}
+      </select>
+    </td>
+    <td>
+      <select class="form-control" style="font-size:12px;padding:5px 8px" id="desc-sel-${idx}" onchange="onDescChange(${idx},this.value)">
+        <option value="">— Artículo —</option>
+        ${descOpts}
+      </select>
+    </td>
+    <td style="min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="color:var(--text2);font-size:13px;font-weight:700;flex-shrink:0">$</span>
+        <input class="form-control" style="font-size:12px;padding:5px 8px;text-align:right;min-width:80px" type="number" step="0.01" min="0" value="${item.precio||''}" id="item-precio-${idx}" oninput="onItemChange(${idx})">
+      </div>
+    </td>
+    <td style="text-align:center">
+      <div class="toggle ${item.iva!==false?'on':''}" id="item-iva-${idx}" onclick="this.classList.toggle('on');onItemChange(${idx})" style="margin:0 auto"></div>
+    </td>
+    <td style="min-width:110px">
+      <div style="display:flex;align-items:center;gap:4px;justify-content:center">
+        <button type="button" onclick="stepQty(${idx},-1)" style="width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0">−</button>
+        <input class="form-control" style="font-size:12px;padding:4px 4px;text-align:center;width:44px;flex-shrink:0" type="number" min="1" value="${item.cantidad||1}" id="item-qty-${idx}" oninput="onItemChange(${idx})">
+        <button type="button" onclick="stepQty(${idx},1)" style="width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0">+</button>
+      </div>
+    </td>
+    <td style="text-align:right"><strong id="item-total-${idx}">$${fmt(total)}</strong></td>
+    <td><button class="items-table rm-btn" onclick="removeItem(${idx})">×</button></td>
+  </tr>`;
+}
+
+function addItemRow() {
+  presupItems.push({rubro:'',descripcion:'',precio:0,iva:true,cantidad:1});
+  const idx = presupItems.length-1;
+  const tbody = document.getElementById('items-tbody');
+  if (tbody) {
+    const tr = document.createElement('tr');
+    tr.id = 'item-row-'+idx;
+    tr.innerHTML = renderItemRow({rubro:'',iva:true,cantidad:1}, idx).replace(/^<tr[^>]*>/,'').replace(/<\/tr>$/,'');
+    tbody.appendChild(tr);
+  }
+  calcTotales();
+}
+
+function removeItem(idx) {
+  presupItems.splice(idx,1);
+  const tbody = document.getElementById('items-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = presupItems.map((item,i)=>renderItemRow(item,i)).join('');
+  calcTotales();
+}
+
+function stepQty(idx, delta) {
+  const el = document.getElementById('item-qty-'+idx);
+  if (!el) return;
+  const val = Math.max(1, (parseFloat(el.value)||1) + delta);
+  el.value = val;
+  onItemChange(idx);
+}
+
+function onRubroChange(idx, rubro) {
+  if (!presupItems[idx]) return;
+  presupItems[idx].rubro = rubro;
+  presupItems[idx].articuloId = '';
+  presupItems[idx].descripcion = '';
+  presupItems[idx].precio = 0;
+  const arts = (window._articulos_cache||[]).filter(a=>!rubro||a.rubro===rubro);
+  const sel = document.getElementById('desc-sel-'+idx);
+  if (sel) sel.innerHTML = '<option value="">— Artículo —</option>'+arts.map(a=>`<option value="${a.id}">${escHtml(a.descripcion)}</option>`).join('');
+  calcTotales();
+}
+
+function onDescChange(idx, artId) {
+  if (!presupItems[idx]) return;
+  const art = (window._articulos_cache||[]).find(a=>a.id===artId);
+  if (art) {
+    presupItems[idx].articuloId = art.id;
+    presupItems[idx].descripcion = art.descripcion;
+    presupItems[idx].precio = art.precio;
+    presupItems[idx].iva = art.iva !== false;
+    presupItems[idx].rubro = art.rubro;
+    const prEl = document.getElementById('item-precio-'+idx);
+    if (prEl) prEl.value = art.precio;
+    const ivaEl = document.getElementById('item-iva-'+idx);
+    if (ivaEl) { ivaEl.classList.toggle('on', art.iva!==false); }
+  }
+  onItemChange(idx);
+}
+
+function onItemChange(idx) {
+  if (!presupItems[idx]) return;
+  const precio = parseFloat(document.getElementById('item-precio-'+idx)?.value)||0;
+  const iva = document.getElementById('item-iva-'+idx)?.classList.contains('on');
+  const qty = parseFloat(document.getElementById('item-qty-'+idx)?.value)||1;
+  presupItems[idx].precio = precio;
+  presupItems[idx].iva = iva;
+  presupItems[idx].cantidad = qty;
+  const total = precio * (1+(iva?0.21:0)) * qty;
+  const totEl = document.getElementById('item-total-'+idx);
+  if (totEl) totEl.textContent = '$'+fmt(total);
+  calcTotales();
+}
+
+function calcTotales() {
+  // Sync presupItems from DOM
+  presupItems.forEach((item,i)=>{
+    const prEl = document.getElementById('item-precio-'+i);
+    const ivaEl = document.getElementById('item-iva-'+i);
+    const qtyEl = document.getElementById('item-qty-'+i);
+    if (prEl) item.precio = parseFloat(prEl.value)||0;
+    if (ivaEl) item.iva = ivaEl.classList.contains('on');
+    if (qtyEl) item.cantidad = parseFloat(qtyEl.value)||1;
+  });
+  
+  let subtotal = 0, ivaTotal = 0;
+  presupItems.forEach(item => {
+    const base = (item.precio||0) * (item.cantidad||1);
+    const iva = item.iva ? base * 0.21 : 0;
+    subtotal += base; ivaTotal += iva;
+  });
+  const descPct = parseFloat(document.getElementById('pre-descuento')?.value)||0;
+  const neto = subtotal + ivaTotal;
+  const descMonto = neto * descPct / 100;
+  const total = neto - descMonto;
+  
+  const el = document.getElementById('pre-totales');
+  if (el) el.innerHTML = `
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--text2)">Subtotal neto:</span>
+        <span>$${fmt(subtotal)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--text2)">IVA (21%):</span>
+        <span>$${fmt(ivaTotal)}</span>
+      </div>
+      ${descPct>0?`<div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--danger)">Descuento (${descPct}%):</span>
+        <span style="color:var(--danger)">-$${fmt(descMonto)}</span>
+      </div>`:''}
+      <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <span style="font-weight:700;font-size:15px">TOTAL:</span>
+        <span style="font-weight:700;font-size:15px;color:var(--accent)">$${fmt(total)}</span>
+      </div>
+    </div>`;
+  return { subtotal, ivaTotal, descMonto, total, descPct };
+}
+
+function autoFillCliente(clienteId, overrides={}) {
+  const c = clientesList.find(x=>x.id===clienteId) || {};
+  const pagoEl = document.getElementById('pre-pago');
+  const dirEl = document.getElementById('pre-dir');
+  if (pagoEl && c.condPago && !overrides.condPago) pagoEl.value = c.condPago;
+  if (dirEl && c.direccion && !overrides.direccionEnvio) dirEl.value = c.direccion;
+}
+
+function openClienteRapido() {
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title">Nuevo Cliente Rápido</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Nombre *</label><input class="form-control" id="cl-nombre"></div>
+      <div class="form-grid form-grid-2">
+        <div class="form-group"><label>CUIT</label><input class="form-control" id="cl-cuit"></div>
+        <div class="form-group"><label>Mail</label><input class="form-control" id="cl-mail" type="email"></div>
+      </div>
+      <div class="form-grid form-grid-2">
+        <div class="form-group"><label>WhatsApp</label><input class="form-control" id="cl-ws"></div>
+        <div class="form-group"><label>Condición de Pago</label>
+          <select class="form-control" id="cl-pago">
+            <option>Efectivo</option><option>Transferencia</option><option>Cheque</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Dirección</label><input class="form-control" id="cl-dir"></div>
+      <textarea class="form-control" id="cl-notas" placeholder="Notas" style="display:none"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveClienteRapido()">Guardar y Seleccionar</button>
+    </div>
+  `);
+}
+
+async function saveClienteRapido() {
+  const saved = await saveCliente('', true);
+  if (!saved) return;
+  closeModal();
+  // Reload presupuesto select
+  await PAGES.presupuestos();
+  setTimeout(()=>{
+    const sel = document.getElementById('pre-cliente');
+    if (sel) { sel.value = saved.id; autoFillCliente(saved.id); }
+  },100);
+  toast('Cliente creado y seleccionado');
+}
+
+function collectPresupData() {
+  // Sync items from DOM
+  presupItems.forEach((item,i)=>{
+    const prEl = document.getElementById('item-precio-'+i);
+    const ivaEl = document.getElementById('item-iva-'+i);
+    const qtyEl = document.getElementById('item-qty-'+i);
+    const descEl = document.getElementById('desc-sel-'+i);
+    if (prEl) item.precio = parseFloat(prEl.value)||0;
+    if (ivaEl) item.iva = ivaEl.classList.contains('on');
+    if (qtyEl) item.cantidad = parseFloat(qtyEl.value)||1;
+    if (descEl) {
+      const art = (window._articulos_cache||[]).find(a=>a.id===descEl.value);
+      if (art) { item.descripcion = art.descripcion; item.articuloId = art.id; item.rubro = art.rubro; }
+    }
+  });
+  
+  const tots = calcTotales();
+  const clienteId = document.getElementById('pre-cliente')?.value;
+  const cliente = clientesList.find(c=>c.id===clienteId);
+  
+  return {
+    fecha: document.getElementById('pre-fecha')?.value || today(),
+    numero: document.getElementById('pre-numero')?.value,
+    clienteId,
+    clienteNombre: cliente?.nombre || '',
+    clienteMail: cliente?.mail || '',
+    clienteWs: cliente?.whatsapp || '',
+    condPago: document.getElementById('pre-pago')?.value || 'Efectivo',
+    fechaEntrega: document.getElementById('pre-fentrega')?.value || '',
+    direccionEnvio: document.getElementById('pre-dir')?.value || '',
+    items: [...presupItems],
+    subtotal: tots.subtotal,
+    ivaTotal: tots.ivaTotal,
+    descuento: tots.descPct,
+    descuentoMonto: tots.descMonto,
+    total: tots.total,
+    nota: document.getElementById('pre-nota')?.value || '',
+    notaPrivada: document.getElementById('pre-notapriv')?.value || '',
+    estado: 'en_espera',
+    enviado: [],
+  };
+}
+
+async function crearCotizacion(modo) {
+  const data = collectPresupData();
+  if (!data.clienteId) { toast('Seleccioná un cliente','error'); return; }
+  if (data.items.length===0) { toast('Agregá al menos un artículo','error'); return; }
+  
+  if (presupEditId) data.id = presupEditId;
+  const saved = await DB.save('cotizaciones', data);
+  
+  const enviado = [];
+  
+  if (modo==='mail'||modo==='mailws') {
+    if (!data.clienteMail) { toast('El cliente no tiene mail configurado','error'); }
+    else { await enviarMail(data); enviado.push('mail'); }
+  }
+  if (modo==='ws'||modo==='mailws') {
+    if (!data.clienteWs) { toast('El cliente no tiene WhatsApp configurado','error'); }
+    else { await enviarWhatsapp(data); enviado.push('whatsapp'); }
+  }
+  if (modo==='print') {
+    setTimeout(()=>imprimirCotizacion(data),400);
+  }
+  
+  if (enviado.length) {
+    await DB.save('cotizaciones', {...saved, enviado});
+  }
+  
+  toast('Cotización '+data.numero+' creada exitosamente!');
+  presupItems = [];
+  presupEditId = null;
+  navigate('cotizaciones');
+}
+
+// ── Reemplaza variables en el template del mensaje ──
+function interpolateMsg(template, data, perfil) {
+  return template
+    .replace(/{numero}/g,  data.numero      || '')
+    .replace(/{cliente}/g, data.clienteNombre || '')
+    .replace(/{total}/g,   '$' + fmt(data.total))
+    .replace(/{empresa}/g, perfil.empresa   || 'L&H')
+    .replace(/{nota}/g,    data.nota        || '')
+    .replace(/{fecha}/g,   fmtDate(data.fecha));
+}
+
+// Detecta si es dispositivo móvil real (no Windows/Mac/Linux desktop)
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+// Genera PDF real, lo descarga y abre Outlook/cliente de mail
+async function enviarMail(data) {
+  const perfil = getPerfilSync();
+  toast('Generando PDF...', 'info', 30000);
+
+  const blob = await generarPDFBlob(data);
+  if (!blob) return;
+
+  const nombreArchivo = `Cotizacion-${data.numero}-${(data.clienteNombre||'cliente').replace(/\s+/g,'-')}.pdf`;
+
+  // En móvil usar Web Share API para adjuntar directamente
+  if (isMobileDevice() && navigator.share && navigator.canShare) {
+    const file = new File([blob], nombreArchivo, { type: 'application/pdf' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: `Cotización #${data.numero}` });
+        toast('Archivo compartido exitosamente ✓');
+        return;
+      } catch(e) { /* si cancela, sigue con descarga */ }
+    }
+  }
+
+  // Desktop (Windows, Mac, Linux): descargar PDF y abrir Outlook/cliente de mail
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nombreArchivo;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  await new Promise(r => setTimeout(r, 800));
+
+  const asuntoTpl = perfil.mailAsunto || 'Cotización #{numero} — {empresa}';
+  const cuerpoTpl = perfil.mailCuerpo ||
+    'Estimado/a {cliente},\n\nAdjunto encontrará la cotización #{numero} por un total de {total}.\n\nNota: el PDF fue descargado automáticamente en su equipo — adjúntelo a este correo.\n\n{nota}\n\nSaludos,\n{empresa}';
+
+  const subject = encodeURIComponent(interpolateMsg(asuntoTpl, data, perfil));
+  const body    = encodeURIComponent(interpolateMsg(cuerpoTpl, data, perfil));
+
+  // Forzar apertura con mailto: — abre Outlook, Thunderbird o el cliente predeterminado
+  window.location.href = `mailto:${data.clienteMail}?subject=${subject}&body=${body}`;
+  toast('PDF descargado ✓ — Outlook/correo abierto. Adjuntá el PDF descargado.', 'info', 8000);
+}
+
+// Genera PDF real, lo descarga y abre WhatsApp
+async function enviarWhatsapp(data) {
+  const perfil = getPerfilSync();
+  toast('Generando PDF...', 'info', 30000);
+
+  const blob = await generarPDFBlob(data);
+  if (!blob) return;
+
+  const nombreArchivo = `Cotizacion-${data.numero}-${(data.clienteNombre||'cliente').replace(/\s+/g,'-')}.pdf`;
+
+  // En móvil usar Web Share API para adjuntar directamente a WhatsApp
+  if (isMobileDevice() && navigator.share && navigator.canShare) {
+    const file = new File([blob], nombreArchivo, { type: 'application/pdf' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: `Cotización #${data.numero}` });
+        toast('Archivo compartido exitosamente ✓');
+        return;
+      } catch(e) { /* si cancela, sigue con descarga */ }
+    }
+  }
+
+  // Desktop: descargar PDF y abrir WhatsApp con el mensaje listo
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nombreArchivo;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  await new Promise(r => setTimeout(r, 800));
+
+  const wsTpl = perfil.wsMensaje ||
+    'Hola {cliente}! 👋\nTe enviamos la cotización *#{numero}* por *{total}*.\n\n{nota}\n📎 Adjunto encontrará el PDF.\n\n_{empresa}_';
+
+  const num = data.clienteWs.replace(/\D/g, '');
+  const msg = encodeURIComponent(interpolateMsg(wsTpl, data, perfil));
+
+  // Abre WhatsApp Desktop si está instalado, si no WhatsApp Web
+  window.open(`https://wa.me/${num}?text=${msg}`, '_blank');
+  toast('PDF descargado ✓ — WhatsApp abierto. Adjuntá el PDF al chat.', 'info', 8000);
+}
+
+// Genera y descarga el PDF de la cotización
+function descargarPDF(data) {
+  const perfil = getPerfilSync();
+  const docHTML = buildDocHTML(data);
+  const fullHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <style>
+      body{font-family:Arial,sans-serif;font-size:11pt;color:#000;margin:0;padding:0}
+      table{width:100%;border-collapse:collapse}
+      th,td{border:1px solid #ddd;padding:6px 9px}
+      th{background:#f5f5f5;font-weight:700;font-size:10pt}
+      .preview-total-row td{font-weight:700;background:#f9f9f9}
+      .preview-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #333}
+      .preview-logo{max-height:70px;max-width:160px;object-fit:contain}
+      .co-title{font-size:18px;font-weight:700}
+      img{max-height:70px}
+      @page{margin:15mm}
+    </style>
+  </head><body>${docHTML}</body></html>`;
+
+  const blob = new Blob([fullHTML], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Cotizacion-${data.numero}-${(data.clienteNombre||'cliente').replace(/\s+/g,'-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+async function previewPresupuesto() {
+  const data = collectPresupData();
+  window._previewData = data;
+  const perfil = await getPerfilData();
+  // Guardar en localStorage para que getPerfilSync lo encuentre si se necesita
+  LS.set('perfil', [perfil]);
+  const html = buildDocHTML(data, perfil);
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title">Vista Previa — Cotización ${data.numero}</div>
+      <button class="modal-close" onclick="closeModal('preview-modal')">×</button>
+    </div>
+    ${html}
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('preview-modal')">Cerrar</button>
+      <button class="btn btn-secondary" onclick="descargarPDF(window._previewData)">⬇ Descargar PDF</button>
+      <button class="btn btn-primary" onclick="imprimirCotizacion(null,'preview-doc-inner')">🖨 Imprimir</button>
+    </div>
+  `, 'preview-modal', '800px');
+}
+
+function buildDocHTML(data, perfil) {
+  // Si no se pasa perfil, usar localStorage como fallback
+  if (!perfil) perfil = getPerfilSync();
+
+  // Paleta lila
+  const C = {
+    bg:        '#f4f0fa',   // fondo general lila suave
+    header:    '#5c4d8a',   // encabezado violeta profundo
+    headerDark:'#3e3168',   // gradiente oscuro del header
+    accent:    '#9b7fd4',   // lila medio — acento
+    accentLight:'#e8e0f7',  // lila muy claro — filas alternadas
+    accentLine: '#b39ddb',  // línea decorativa
+    white:     '#ffffff',
+    rowEven:   '#ffffff',
+    rowOdd:    '#f0ebfa',
+    text:      '#1a1520',   // negro casi puro para texto principal
+    textMid:   '#3d3550',   // texto secundario oscuro
+    textLight: '#6b5f85',   // texto terciario
+    border:    '#d9cfee',
+    totalBg:   '#3e3168',
+  };
+
+  const rowsHtml = data.items.map((item, i) => {
+    const base   = (item.precio||0) * (item.cantidad||1);
+    const ivaAmt = item.iva ? base * 0.21 : 0;
+    const total  = base + ivaAmt;
+    return `<tr style="background:${i%2===0 ? C.rowEven : C.rowOdd}">
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};color:${C.textMid};font-size:12px">${escHtml(item.rubro||'')}</td>
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};color:${C.text};font-weight:600;font-size:12px">${escHtml(item.descripcion||'')}</td>
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};text-align:right;color:${C.text};font-weight:600;font-size:12px">$${fmt(item.precio)}</td>
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};text-align:center;color:${item.iva ? C.accent : '#aaa'};font-weight:700;font-size:12px">${item.iva?'21%':'—'}</td>
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};text-align:center;color:${C.text};font-weight:700;font-size:12px">${item.cantidad}</td>
+      <td style="padding:10px 16px;border:none;border-bottom:1px solid ${C.border};text-align:right;color:${C.text};font-weight:800;font-size:12px">$${fmt(total)}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div id="preview-doc-inner" style="font-family:'Segoe UI',Arial,sans-serif;color:${C.text};background:${C.bg};padding:0;max-width:794px;margin:0 auto;border-radius:0">
+
+    <!-- ══ HEADER ══ -->
+    <div style="background:linear-gradient(135deg,${C.headerDark} 0%,${C.header} 100%);padding:32px 36px 28px;display:flex;justify-content:space-between;align-items:flex-start">
+
+      <!-- Logo + empresa -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${perfil.logo
+          ? `<img src="${perfil.logo}" style="max-height:70px;max-width:170px;object-fit:contain;display:block;background:#fff;border-radius:6px;padding:6px">`
+          : `<div style="font-size:26px;font-weight:900;color:#fff;letter-spacing:-0.5px">${escHtml(perfil.empresa||'L&H')}</div>`
+        }
+        <div style="font-size:10.5px;color:rgba(255,255,255,0.7);line-height:1.9;margin-top:4px">
+          ${perfil.empresa && perfil.logo ? `<div style="font-weight:700;color:rgba(255,255,255,0.95);font-size:13px;margin-bottom:2px">${escHtml(perfil.empresa)}</div>` : ''}
+          ${perfil.direccion ? `<div>📍 ${escHtml(perfil.direccion)}</div>` : ''}
+          ${perfil.whatsapp  ? `<div>📱 ${escHtml(perfil.whatsapp)}</div>`  : ''}
+          ${perfil.mail      ? `<div>✉ ${escHtml(perfil.mail)}</div>`       : ''}
+          ${perfil.web       ? `<div>🌐 ${escHtml(perfil.web)}</div>`       : ''}
+        </div>
+      </div>
+
+      <!-- Número y fechas -->
+      <div style="text-align:right">
+        <div style="color:rgba(255,255,255,0.6);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">COTIZACIÓN</div>
+        <div style="color:#fff;font-size:42px;font-weight:900;letter-spacing:-2px;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,0.3)">#${data.numero}</div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.7);line-height:2">
+          <div>Fecha: <strong style="color:#fff">${fmtDate(data.fecha)}</strong></div>
+          ${data.fechaEntrega ? `<div>Entrega: <strong style="color:#fff">${fmtDate(data.fechaEntrega)}</strong></div>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ACCENT BAR ══ -->
+    <div style="height:5px;background:linear-gradient(90deg,${C.accentLine},#d1bfef,${C.accentLine})"></div>
+
+    <!-- ══ CLIENTE / RESUMEN ══ -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;background:${C.white};border-bottom:2px solid ${C.border}">
+      <div style="padding:20px 28px;border-right:1px solid ${C.border}">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:${C.accent};margin-bottom:10px">Cliente</div>
+        <div style="font-size:16px;font-weight:800;color:${C.text};margin-bottom:5px">${escHtml(data.clienteNombre||'—')}</div>
+        ${data.condPago    ? `<div style="font-size:11.5px;color:${C.textMid};margin-top:4px">💳 Pago: <strong>${escHtml(data.condPago)}</strong></div>`    : ''}
+        ${data.direccionEnvio ? `<div style="font-size:11.5px;color:${C.textMid};margin-top:4px">📍 Envío: <strong>${escHtml(data.direccionEnvio)}</strong></div>` : ''}
+      </div>
+      <div style="padding:20px 28px;background:${C.accentLight}">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:${C.accent};margin-bottom:10px">Detalle</div>
+        <div style="font-size:11.5px;color:${C.textMid};line-height:2.1">
+          <div>Artículos: <strong style="color:${C.text}">${data.items.length}</strong></div>
+          ${data.descuento>0 ? `<div>Descuento: <strong style="color:#c0392b">${data.descuento}%</strong></div>` : ''}
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:${C.textLight}">Total:
+          <strong style="color:${C.header};font-size:20px;margin-left:6px">$${fmt(data.total)}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TABLA ARTÍCULOS ══ -->
+    <div style="background:${C.white}">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="background:${C.header}">
+            <th style="padding:12px 16px;text-align:left;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;width:15%">Rubro</th>
+            <th style="padding:12px 16px;text-align:left;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none">Descripción</th>
+            <th style="padding:12px 16px;text-align:right;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;width:11%">P. Unit.</th>
+            <th style="padding:12px 16px;text-align:center;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;width:8%">IVA</th>
+            <th style="padding:12px 16px;text-align:center;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;width:8%">Cant.</th>
+            <th style="padding:12px 16px;text-align:right;color:rgba(255,255,255,0.85);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;width:12%">Total</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+
+    <!-- ══ TOTALES ══ -->
+    <div style="display:flex;justify-content:flex-end;padding:24px 28px 20px;background:${C.accentLight};border-top:2px solid ${C.border}">
+      <div style="min-width:280px">
+        <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;color:${C.textMid};border-bottom:1px solid ${C.border}">
+          <span>Subtotal neto</span><span style="font-weight:600;color:${C.text}">$${fmt(data.subtotal)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;color:${C.textMid};border-bottom:1px solid ${C.border}">
+          <span>IVA 21%</span><span style="font-weight:600;color:${C.text}">$${fmt(data.ivaTotal)}</span>
+        </div>
+        ${data.descuento>0 ? `
+        <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid ${C.border}">
+          <span style="color:#c0392b">Descuento (${data.descuento}%)</span>
+          <span style="font-weight:600;color:#c0392b">-$${fmt(data.descuentoMonto)}</span>
+        </div>` : ''}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:${C.totalBg};border-radius:10px;margin-top:12px">
+          <span style="font-weight:700;font-size:14px;color:rgba(255,255,255,0.85);letter-spacing:1px">TOTAL</span>
+          <span style="font-weight:900;font-size:22px;color:#fff">$${fmt(data.total)}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ NOTA AL PIE ══ -->
+    ${data.nota ? `
+    <div style="margin:0;padding:16px 28px;background:${C.white};border-top:3px solid ${C.accentLine}">
+      <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:${C.accent};margin-bottom:6px">Nota</div>
+      <div style="font-size:12px;color:${C.textMid};line-height:1.7">${escHtml(data.nota)}</div>
+    </div>` : ''}
+
+    <!-- ══ FOOTER ══ -->
+    <div style="background:${C.headerDark};padding:14px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        ${perfil.logo ? `<img src="${perfil.logo}" style="height:28px;width:auto;object-fit:contain;opacity:.7;filter:brightness(0) invert(1)">` : ''}
+        <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.8)">${escHtml(perfil.empresa||'L&H')}</span>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.45);display:flex;gap:14px;flex-wrap:wrap">
+        ${perfil.mail      ? `<span>${escHtml(perfil.mail)}</span>`      : ''}
+        ${perfil.whatsapp  ? `<span>${escHtml(perfil.whatsapp)}</span>`  : ''}
+        ${perfil.web       ? `<span>${escHtml(perfil.web)}</span>`       : ''}
+      </div>
+    </div>
+
+  </div>`;
+}
+
+// ── Genera PDF real usando jsPDF + html2canvas ──
+async function generarPDFBlob(data) {
+  // Cargar perfil desde Firestore (con logo) antes de generar
+  const perfil = await getPerfilData();
+  LS.set('perfil', [perfil]);
+
+  return new Promise((resolve, reject) => {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;width:794px;background:#f4f0fa;z-index:-1';
+    wrapper.innerHTML = buildDocHTML(data, perfil);
+    // Quitar ID para no conflicto
+    const inner = wrapper.querySelector('#preview-doc-inner');
+    if (inner) inner.removeAttribute('id');
+    document.body.appendChild(wrapper);
+
+    setTimeout(async () => {
+      try {
+        const canvas = await html2canvas(wrapper, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          width: 794,
+          windowWidth: 794
+        });
+        document.body.removeChild(wrapper);
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgW = pageW;
+        const imgH = (canvas.height * pageW) / canvas.width;
+
+        let yPos = 0;
+        let remainingH = imgH;
+        let firstPage = true;
+
+        while (remainingH > 0) {
+          if (!firstPage) pdf.addPage();
+          const sliceH = Math.min(pageH, remainingH);
+          const sliceCanvas = document.createElement('canvas');
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = (sliceH * canvas.width) / imgW;
+          const ctx = sliceCanvas.getContext('2d');
+          ctx.drawImage(canvas, 0, yPos * canvas.width / imgW, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
+          pdf.addImage(sliceCanvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, imgW, sliceH);
+          yPos += sliceH;
+          remainingH -= sliceH;
+          firstPage = false;
+        }
+
+        resolve(pdf.output('blob'));
+      } catch(e) {
+        if(document.body.contains(wrapper)) document.body.removeChild(wrapper);
+        reject(e);
+      }
+    }, 200);
+  });
+}
+
+// ── Descarga el PDF ──
+async function descargarPDF(data) {
+  const toastId = toast('Generando PDF...', 'info', 30000);
+  try {
+    const blob = await generarPDFBlob(data);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Cotizacion-${data.numero}-${(data.clienteNombre||'cliente').replace(/\s+/g,'-')}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    toast('PDF descargado correctamente ✓');
+    return blob;
+  } catch(e) {
+    toast('Error generando PDF: ' + e.message, 'error');
+    return null;
+  }
+}
+// ── Imprime en ventana del navegador ──
+function imprimirCotizacion(data, innerEl='preview-doc-inner') {
+  const el = document.getElementById(innerEl);
+  if (!el) { if(data){ previewPresupuesto(); setTimeout(()=>imprimirCotizacion(data,innerEl),400); } return; }
+  const w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{background:#f4f0fa;font-family:'Segoe UI',Arial,sans-serif;color:#1a1520}
+    img{display:block}
+    table{width:100%;border-collapse:collapse}
+    @page{margin:0;size:A4}
+  </style></head><body>${el.innerHTML}</body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(), 500);
+}
+
+async function deleteCotizacionFromEdit(id) {
+  if (!confirm('¿Eliminar esta cotización?')) return;
+  await DB.delete('cotizaciones', id);
+  toast('Cotización eliminada','info');
+  presupItems=[];presupEditId=null;
+  navigate('cotizaciones');
+}
+
+// ════════════════════════════════════════════════════════════
+// PAGE: COTIZACIONES
+// ════════════════════════════════════════════════════════════
+let cotizacionesList = [];
+let cotFilter = { texto:'', desde:'', hasta:'' };
+
+PAGES.cotizaciones = async function() {
+  document.getElementById('page-title').textContent = 'Cotizaciones';
+  document.getElementById('topbar-actions').innerHTML = `
+    <button class="btn btn-primary btn-sm" onclick="navigate('presupuestos')">+ Nuevo</button>`;
+  cotizacionesList = await DB.getAll('cotizaciones');
+  renderCotizaciones();
+};
+
+function renderCotizaciones() {
+  let filtered = [...cotizacionesList];
+  if (cotFilter.texto) {
+    const t = cotFilter.texto.toLowerCase();
+    filtered = filtered.filter(c=>
+      c.clienteNombre?.toLowerCase().includes(t)||
+      c.numero?.includes(t)
+    );
+  }
+  if (cotFilter.desde) filtered = filtered.filter(c=>c.fecha>=cotFilter.desde);
+  if (cotFilter.hasta) filtered = filtered.filter(c=>c.fecha<=cotFilter.hasta);
+  filtered.sort((a,b)=>b.numero?.localeCompare(a.numero));
+  
+  document.getElementById('content').innerHTML = `
+    <div class="card" style="padding:14px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <div class="search-input-wrap" style="flex:1;min-width:180px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="form-control search-input" placeholder="Buscar por cliente o N° cotización..."
+            value="${cotFilter.texto}" oninput="cotFilter.texto=this.value;renderCotizaciones()">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label style="font-size:11px;color:var(--text3)">Desde</label>
+          <input class="form-control" type="date" value="${cotFilter.desde}" style="width:140px" oninput="cotFilter.desde=this.value;renderCotizaciones()">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label style="font-size:11px;color:var(--text3)">Hasta</label>
+          <input class="form-control" type="date" value="${cotFilter.hasta}" style="width:140px" oninput="cotFilter.hasta=this.value;renderCotizaciones()">
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="cotFilter={texto:'',desde:'',hasta:''};renderCotizaciones()">Limpiar</button>
+        <span style="color:var(--text3);font-size:12px">${filtered.length} result(s)</span>
+      </div>
+    </div>
+    <div class="card" style="padding:0">
+      <div class="table-wrapper" style="border:none">
+        <table>
+          <thead><tr><th>Fecha</th><th>#</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Enviado</th><th>Acciones</th></tr></thead>
+          <tbody>
+            ${filtered.length===0?`<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text3)">No hay cotizaciones que coincidan</td></tr>`:
+              filtered.map(c=>`<tr>
+                <td>${fmtDate(c.fecha)}</td>
+                <td><strong style="color:var(--accent)">${c.numero}</strong></td>
+                <td>${escHtml(c.clienteNombre||'—')}</td>
+                <td><strong>$${fmt(c.total)}</strong></td>
+                <td>
+                  <select class="form-control" style="padding:4px 8px;font-size:12px;width:120px"
+                    onchange="updateEstado('${c.id}',this.value)">
+                    <option value="en_espera" ${c.estado==='en_espera'?'selected':''}>En Espera</option>
+                    <option value="aprobado" ${c.estado==='aprobado'?'selected':''}>Aprobado</option>
+                    <option value="finalizado" ${c.estado==='finalizado'?'selected':''}>Finalizado</option>
+                  </select>
+                </td>
+                <td>${(c.enviado||[]).map(e=>
+                  `<span class="badge badge-${e==='mail'?'info':e==='whatsapp'?'success':'neutral'}">${e}</span>`
+                ).join(' ')||'<span style="color:var(--text3)">—</span>'}</td>
+                <td>
+                  <div style="display:flex;gap:5px;flex-wrap:wrap;min-width:280px">
+                    <button class="btn btn-secondary btn-sm" onclick="editarCotizacion('${c.id}')">✏ Editar</button>
+                    <button class="btn btn-secondary btn-sm" onclick="verCotizacion('${c.id}')">👁 Ver</button>
+                    <button class="btn btn-secondary btn-sm" onclick="imprimirById('${c.id}')">🖨 Imprimir</button>
+                    <button class="btn btn-info btn-sm" onclick="enviarMailById('${c.id}')">📧 Mail</button>
+                    <button class="btn btn-success btn-sm" onclick="enviarWsById('${c.id}')">💬 WhatsApp</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteCotizacion('${c.id}')">🗑 Borrar</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+async function updateEstado(id, estado) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  cot.estado = estado;
+  await DB.save('cotizaciones', cot);
+  toast('Estado actualizado');
+}
+
+async function editarCotizacion(id) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  presupItems = cot.items ? JSON.parse(JSON.stringify(cot.items)) : [];
+  presupEditId = id;
+  document.getElementById('page-title').textContent = 'Editar Cotización';
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('nav-presupuestos')?.classList.add('active');
+  await renderPresupuesto(cot);
+}
+
+async function verCotizacion(id) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  window._previewData = cot;
+  const perfil = await getPerfilData();
+  LS.set('perfil', [perfil]);
+  const html = buildDocHTML(cot, perfil);
+  showModal(`
+    <div class="modal-header">
+      <div class="modal-title">Cotización #${cot.numero}</div>
+      <button class="modal-close" onclick="closeModal('preview-modal')">×</button>
+    </div>
+    ${html}
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('preview-modal')">Cerrar</button>
+      <button class="btn btn-secondary" onclick="descargarPDF(window._previewData)">⬇ Descargar PDF</button>
+      <button class="btn btn-primary" onclick="imprimirCotizacion(null,'preview-doc-inner')">🖨 Imprimir</button>
+    </div>
+  `, 'preview-modal', '800px');
+}
+
+async function imprimirById(id) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  const tmpDiv = document.createElement('div');
+  tmpDiv.id='tmp-print-doc';
+  tmpDiv.style.display='none';
+  tmpDiv.innerHTML = buildDocHTML(cot);
+  document.body.appendChild(tmpDiv);
+  imprimirCotizacion(cot,'preview-doc-inner');
+  setTimeout(()=>tmpDiv.remove(), 1000);
+}
+
+async function enviarMailById(id) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  if (!cot.clienteMail) { toast('El cliente no tiene mail configurado','error'); return; }
+  await enviarMail(cot);
+  cot.enviado = [...new Set([...(cot.enviado||[]),'mail'])];
+  await DB.save('cotizaciones', cot);
+}
+
+async function enviarWsById(id) {
+  const cot = cotizacionesList.find(c=>c.id===id);
+  if (!cot) return;
+  if (!cot.clienteWs) { toast('El cliente no tiene WhatsApp configurado','error'); return; }
+  await enviarWhatsapp(cot);
+  cot.enviado = [...new Set([...(cot.enviado||[]),'whatsapp'])];
+  await DB.save('cotizaciones', cot);
+}
+
+async function deleteCotizacion(id) {
+  if (!confirm('¿Eliminar esta cotización?')) return;
+  await DB.delete('cotizaciones', id);
+  cotizacionesList = cotizacionesList.filter(c=>c.id!==id);
+  renderCotizaciones();
+  toast('Cotización eliminada','info');
+}
+
+// ════════════════════════════════════════════════════════════
+// PAGE: PERFIL
+// ════════════════════════════════════════════════════════════
+async function getPerfilData() {
+  const arr = await DB.getAll('perfil');
+  return arr[0] || {};
+}
+function getPerfilSync() {
+  try { const arr = LS.get('perfil',[]); return arr[0]||{}; } catch{ return {}; }
+}
+
+PAGES.perfil = async function() {
+  document.getElementById('page-title').textContent = 'Perfil & Configuración';
+  document.getElementById('topbar-actions').innerHTML = '';
+  const perfil = await getPerfilData();
+  
+  document.getElementById('content').innerHTML = `
+    <div class="config-notice">
+      <h4>🔥 Configuración Firebase</h4>
+      <p>Para conectar con Firebase, editá el archivo HTML y reemplazá los valores en la variable <code>FIREBASE_CONFIG</code> con los datos de tu proyecto en <a href="https://console.firebase.google.com" target="_blank" style="color:var(--accent)">console.firebase.google.com</a>.<br>
+      Mientras tanto, los datos se guardan en <strong>localStorage</strong> del navegador.</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">🏢 Datos de la Empresa</div>
+      <div class="form-grid">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+          <div>
+            <div class="logo-upload" id="logo-preview" onclick="document.getElementById('logo-input').click()" title="Click para cambiar logo">
+              ${perfil.logo?`<img src="${perfil.logo}" alt="logo">`:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'}
+            </div>
+            <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="previewLogo(this)">
+            <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:4px">Logo empresa</div>
+          </div>
+          <div style="flex:1">
+            <div class="form-group"><label>Nombre de la Empresa</label><input class="form-control" id="pf-empresa" value="${escHtml(perfil.empresa||'')}"></div>
+          </div>
+        </div>
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Dirección</label><input class="form-control" id="pf-dir" value="${escHtml(perfil.direccion||'')}"></div>
+          <div class="form-group"><label>WhatsApp</label><input class="form-control" id="pf-ws" value="${escHtml(perfil.whatsapp||'')}"></div>
+        </div>
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Mail</label><input class="form-control" id="pf-mail" type="email" value="${escHtml(perfil.mail||'')}"></div>
+          <div class="form-group"><label>Página Web</label><input class="form-control" id="pf-web" value="${escHtml(perfil.web||'')}"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">📧 Configuración SMTP</div>
+      <div class="form-grid">
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Servidor SMTP</label><input class="form-control" id="pf-smtp-host" placeholder="smtp.gmail.com" value="${escHtml(perfil.smtpHost||'')}"></div>
+          <div class="form-group"><label>Puerto</label><input class="form-control" id="pf-smtp-port" placeholder="587" value="${escHtml(perfil.smtpPort||'')}"></div>
+        </div>
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Usuario SMTP</label><input class="form-control" id="pf-smtp-user" value="${escHtml(perfil.smtpUser||'')}"></div>
+          <div class="form-group"><label>Contraseña SMTP</label><input class="form-control" type="password" id="pf-smtp-pass" value="${escHtml(perfil.smtpPass||'')}"></div>
+        </div>
+        <div class="alert alert-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          El envío de mails por SMTP requiere un servidor backend. Por ahora los mails se abren en tu cliente de correo (mailto:). Los datos SMTP quedan guardados para uso futuro.
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">💬 Mensajes de Envío</div>
+      <div style="margin-bottom:14px;font-size:12px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;line-height:2">
+        Podés usar estas variables en el texto, se reemplazan automáticamente al enviar:<br>
+        <span style="display:inline-flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{numero}</code>
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{cliente}</code>
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{total}</code>
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{empresa}</code>
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{nota}</code>
+          <code style="background:var(--surface3);padding:2px 8px;border-radius:4px;color:var(--accent);font-size:11px">{fecha}</code>
+        </span>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>📧 Asunto del Mail</label>
+          <input class="form-control" id="pf-mail-asunto" placeholder="Cotización #{numero} — {empresa}"
+            value="${escHtml(perfil.mailAsunto||'')}">
+        </div>
+        <div class="form-group">
+          <label>📧 Cuerpo del Mail</label>
+          <textarea class="form-control" id="pf-mail-cuerpo" rows="6" placeholder="Estimado/a {cliente},&#10;&#10;Adjunto encontrará la cotización #{numero} por un total de \${total}.&#10;&#10;{nota}&#10;&#10;Saludos,&#10;{empresa}">${escHtml(perfil.mailCuerpo||'')}</textarea>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">El PDF se adjunta automáticamente. Este texto va en el cuerpo del correo.</div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:4px 0"></div>
+
+        <div class="form-group">
+          <label>💬 Mensaje de WhatsApp</label>
+          <textarea class="form-control" id="pf-ws-mensaje" rows="6" placeholder="Hola {cliente}! 👋&#10;Te enviamos la cotización *#{numero}* por *\${total}*.&#10;&#10;{nota}&#10;&#10;_{empresa}_">${escHtml(perfil.wsMensaje||'')}</textarea>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">Podés usar *negrita* y _cursiva_ de WhatsApp. El PDF se descarga para adjuntar.</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">🔐 Usuario del Sistema</div>
+      <div class="form-grid">
+        <div class="form-grid form-grid-2">
+          <div class="form-group"><label>Usuario</label><input class="form-control" id="pf-user" value="${escHtml(perfil.usuario||'')}"></div>
+          <div class="form-group"><label>Contraseña</label><input class="form-control" type="password" id="pf-pass" placeholder="Nueva contraseña" value="${escHtml(perfil.password||'')}"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">🎨 Apariencia del Sistema</div>
+      <div style="margin-bottom:10px;font-size:12px;color:var(--text2)">Seleccioná el tema visual que prefieras. El cambio se aplica de inmediato.</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" id="theme-picker">
+        <!-- temas se renderizan por JS -->
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">💾 Backup & Restauración</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-secondary" onclick="exportarBackup()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar Backup
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('backup-input').click()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Importar Backup
+        </button>
+        <input type="file" id="backup-input" accept=".json" style="display:none" onchange="importarBackup(this)">
+      </div>
+    </div>
+    
+    <div style="padding-bottom:30px">
+      <button class="btn btn-primary" onclick="guardarPerfil()">💾 Guardar Configuración</button>
+    </div>
+  `;
+  
+  window._perfil_logo = perfil.logo || '';
+  renderThemePicker();
+};
+
+function previewLogo(input) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    window._perfil_logo = e.target.result;
+    const preview = document.getElementById('logo-preview');
+    if (preview) preview.innerHTML = `<img src="${e.target.result}" alt="logo">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function guardarPerfil() {
+  const perfil = await getPerfilData();
+  const doc = {
+    ...(perfil.id ? {id:perfil.id} : {}),
+    empresa: document.getElementById('pf-empresa').value.trim(),
+    direccion: document.getElementById('pf-dir').value.trim(),
+    whatsapp: document.getElementById('pf-ws').value.trim(),
+    mail: document.getElementById('pf-mail').value.trim(),
+    web: document.getElementById('pf-web').value.trim(),
+    smtpHost: document.getElementById('pf-smtp-host').value.trim(),
+    smtpPort: document.getElementById('pf-smtp-port').value.trim(),
+    smtpUser: document.getElementById('pf-smtp-user').value.trim(),
+    smtpPass: document.getElementById('pf-smtp-pass').value.trim(),
+    usuario: document.getElementById('pf-user').value.trim(),
+    password: document.getElementById('pf-pass').value.trim(),
+    logo: window._perfil_logo || perfil.logo || '',
+    mailAsunto: document.getElementById('pf-mail-asunto').value.trim(),
+    mailCuerpo: document.getElementById('pf-mail-cuerpo').value.trim(),
+    wsMensaje: document.getElementById('pf-ws-mensaje').value.trim(),
+  };
+  await DB.save('perfil', doc);
+  // Sincronizar siempre a localStorage para que getPerfilSync lo tenga disponible
+  LS.set('perfil', [doc]);
+  toast('Perfil guardado exitosamente!');
+}
+
+function exportarBackup() {
+  const data = {};
+  ['articulos','cotizaciones','clientes','perfil'].forEach(col=>{
+    data[col] = LS.get(col,[]);
+  });
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `leosys-backup-${today()}.json`;
+  a.click();
+  toast('Backup exportado');
+}
+
+function importarBackup(input) {
+  const file = input.files[0]; if(!file) return;
+  if(!confirm('¿Importar backup? Esto sobreescribirá todos los datos actuales.')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      ['articulos','cotizaciones','clientes','perfil'].forEach(col=>{
+        if(data[col]) LS.set(col, data[col]);
+      });
+      toast('Backup importado exitosamente! Recargá la página.');
+    } catch(err) {
+      toast('Error al importar backup: '+err.message,'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ════════════════════════════════════════════════════════════
+// TEMAS
+// ════════════════════════════════════════════════════════════
+const TEMAS = {
+  negro: {
+    nombre: 'Oscuro',
+    icon: '🌑',
+    bg: '#0d0f14',
+    surface: '#151820',
+    border: '#2a3050',
+    text: '#eef0f8',
+    accent: '#c9a84c',
+    desc: 'Fondo negro profundo, ideal para trabajo nocturno'
+  },
+  gris: {
+    nombre: 'Gris',
+    icon: '🌫️',
+    bg: '#2b2d35',
+    surface: '#33363f',
+    border: '#555868',
+    text: '#f0f2f8',
+    accent: '#c9a84c',
+    desc: 'Gris medio, equilibrio entre claridad y descanso visual'
+  },
+  claro: {
+    nombre: 'Claro',
+    icon: '☀️',
+    bg: '#f0f2f7',
+    surface: '#ffffff',
+    border: '#d8dce8',
+    text: '#1a1d2e',
+    accent: '#b8912a',
+    desc: 'Fondo blanco, máxima claridad para entornos luminosos'
+  }
+};
+
+function renderThemePicker() {
+  const picker = document.getElementById('theme-picker');
+  if (!picker) return;
+  const current = localStorage.getItem('leosys_tema') || 'negro';
+  picker.innerHTML = Object.entries(TEMAS).map(([key, t]) => `
+    <div onclick="setTema('${key}')" style="
+      cursor:pointer;
+      border-radius:12px;
+      border:2px solid ${current===key ? t.accent : t.border};
+      overflow:hidden;
+      transition:all .2s;
+      transform:${current===key?'scale(1.03)':'scale(1)'};
+      box-shadow:${current===key?`0 0 0 3px ${t.accent}33`:'none'};
+    ">
+      <!-- mini preview -->
+      <div style="height:72px;background:${t.bg};display:flex;gap:0;overflow:hidden">
+        <!-- sidebar simulado -->
+        <div style="width:36px;background:${t.surface};border-right:1px solid ${t.border};display:flex;flex-direction:column;padding:6px 4px;gap:4px">
+          ${[1,2,3,4].map(()=>`<div style="height:5px;border-radius:3px;background:${t.border}"></div>`).join('')}
+        </div>
+        <!-- content simulado -->
+        <div style="flex:1;padding:6px;display:flex;flex-direction:column;gap:4px">
+          <div style="height:8px;border-radius:3px;background:${t.surface};width:60%"></div>
+          <div style="flex:1;border-radius:5px;background:${t.surface};border:1px solid ${t.border};display:flex;flex-direction:column;gap:3px;padding:5px">
+            <div style="height:5px;border-radius:2px;background:${t.accent};width:40%"></div>
+            <div style="height:4px;border-radius:2px;background:${t.border};width:80%"></div>
+            <div style="height:4px;border-radius:2px;background:${t.border};width:60%"></div>
+          </div>
+        </div>
+      </div>
+      <!-- label -->
+      <div style="background:${t.surface};padding:8px 10px;border-top:1px solid ${t.border}">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:${t.text}">${t.icon} ${t.nombre}</div>
+            <div style="font-size:10px;color:${t.text}88;margin-top:2px;line-height:1.3">${t.desc}</div>
+          </div>
+          ${current===key ? `<div style="width:18px;height:18px;border-radius:50%;background:${t.accent};display:flex;align-items:center;justify-content:center;font-size:11px;color:#000;font-weight:700;flex-shrink:0">✓</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setTema(tema) {
+  localStorage.setItem('leosys_tema', tema);
+  document.documentElement.setAttribute('data-theme', tema);
+  renderThemePicker();
+  toast(`Tema "${TEMAS[tema]?.nombre}" aplicado`);
+}
+
+function loadTema() {
+  const tema = localStorage.getItem('leosys_tema') || 'negro';
+  document.documentElement.setAttribute('data-theme', tema);
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  document.querySelectorAll('.dropdown-menu.open').forEach(menu => {
+    if (!menu.closest('.dropdown-wrapper').contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+});
+
+// Cargar tema antes de mostrar cualquier pantalla
+loadTema();
+// Firebase maneja el flujo: login → onAuthStateChanged → showApp/showLogin
+initFirebase();
+</script>
+</body>
+</html>
